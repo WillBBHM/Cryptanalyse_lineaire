@@ -1,0 +1,129 @@
+Exercice 1.2 :
+
+la famille aux quelle appartient ce cryptosystème est de la famille des chiffrement par bloc plus précisément le toyCipher est crypto systeme symétrique par bloc.
+
+Exercice 1.3 :
+
+Le type de construction de cryptosystème qui est utilisé est le suivant : RSP (Reseau de Substitution Permutation)
+
+Exercice 1.4 :
+
+(a) La taille du bloc est de 4 bits
+(b) La taille de la clé est de 2x4 bits
+(c) Il effectue 2 tours
+(d) Chaque tour consiste a xor en ajoutant la clé a l'état puis le passage a la boite s
+(e) L'étapes de substitution consiste à remplacer chaque bit par un autre bit selon une table de substitution (S-box) 
+(f) l'étapes de permutation consiste à réarranger les bits du texte en fonction de la fonction utiliser à l'aide des operations XOR et de la fonction utiliser (Dans notre cas il n'y a pas de permutation)
+
+exercice 2.1: 
+
+(a) Le type d’attaque qui permet de casser trivialement le chiffrement dans ce cas là est l'attaque IND-KPA
+(b) Premièrement, on passe le message chiffre dans la sbox inversé. message_inverse = sbox_inversé[message_chiffre] on obtient "m ^ key[0] " Et on fait : message clair ^ m ^ key[0] Qui permet d'isoler la clé :  key[0]
+
+Exercice 2.2: 
+
+Il ne suffit pas pour casser l’algorithme de chiffrement de répéter deux fois l’opération de la question précé-dente car le message est crypté deux fois par les deux partie de la clé, il y a 2 clé
+
+Exercice 2.3:
+
+(a) Le nombre raisonnable de clef de tour possible est de 2**8/2 donc 16 clés possibles
+
+(b) → Non il n'est pas pour autant possible de simplement toutes les essayer pour trouver la clef du premier tour car cela ne pourrais fonctionner avec le manque d'information intermediaire qu'on a.
+
+Exercice 2.4:
+
+Si on définit “une étape” comme l’exécution d’un tour de notre algorithme de chiffrement, il faudrait (2**8)*(2**4)*2 = 2**13 = 8192 essais pour trouver la bonne clé, en vérifiant toutes les clés qui serait potentielle, et il faudrait aussi vérifier que toutes les encryptions des messages corresponds aux passages des 2 tours
+
+Exercice 2.5.A:
+
+Mon hypothèse serait la suivante :
+
+"
+def brute_enc(msg, c):
+    for i in range(16):
+        for j in range(16):
+            msg_t = enc(msg, (i, j))
+            if(msg_t == c):
+                print(f"The key is : {(i, j)}")
+                return (i, j)
+"
+
+Je vais tester pour chaque partie d'une clés toute les possibilité de la deuxième partie de la clé, et je vais vérifier si le message chiffré correspond au message chiffré donné en paramètre, si c'est le cas, alors j'ai trouvé la clé.
+
+Exercice 2.5.B:
+
+Voila le resultat obtenu de mon brute force :
+
+The keys: (14, 2)
+The text: 6
+The crypted texte: 5
+The key is : (0, 13)
+(0, 13)
+The decrypted texte: 6
+
+On peut remarquer que une des clés a été considerer comme valid et étant la bonne clés, mais en réalité, la clé qui a été utilisé pour chiffrer le message est la clé (14, 2) et non la clé (0, 13), on peut donc en conclure que le brute force n'est pas une bonne solution pour casser le chiffrement car le message decrypter est bien le même mais cela est seulement du hasard et non le fait que ce soit la bonne clés si ont l'essaie sur un autre message chiffrer on pourra s'apercevoir que cela ne fonctionne pas.
+
+Exercice 2.5.C:
+
+Mon hypothèse est réfuté car il peut y avoir plusieurs clés qui peuvent être considéré comme valide et donc on ne peut pas en conclure que la clé qui a été trouvé est la bonne clé mais qui en realité n'es pas valide et que le message decrypter est identique seulement par hasard mais que un autre message chiffrer ne fonctionnera pas.
+
+Exercice 2.5.D:
+
+Après avoir modifier légèrement le brute force on peut observer que la raison pour laquelle mon hypothèse est réfuter est bien la bonne comme on peut le voir a travers le resultat de mon brute force :
+
+The keys: (9, 13)
+The text: 14
+The crypted texte: 8
+The key is : (0, 11)
+(0, 11)
+The decrypted texte: 14
+
+
+Test de la deuxième version de brute_enc
+The key is : (0, 11)
+The key is : (1, 14)
+The key is : (2, 4)
+The key is : (3, 5)
+The key is : (4, 8)
+The key is : (5, 3)
+The key is : (6, 6)
+The key is : (7, 12)
+The key is : (8, 9)
+The key is : (9, 13)
+The key is : (10, 1)
+The key is : (11, 10)
+The key is : (12, 7)
+The key is : (13, 15)
+The key is : (14, 2)
+The key is : (15, 0)
+
+Chacune de ces clé mêne aux même message decrypter est sont considerer comme valid alors que ce n'est pas le cas, on peut donc en conclure que mon hypothèse est réfuter.
+Et on peut observer que ma clé valide et parmis les clés qui sont considerer comme valide par le brute force.
+
+Exercice 3.1: 
+
+La non-linéarité du chiffrement est accrue par deux tours de XOR suivis d'une boîte S*. La boîte S* est une table de substitution qui remplace chaque entrée par une sortie différente, ce qui rend impossible de trouver une relation mathématique entre les entrées et les sorties.
+
+Exercice 5.1:
+
+Pour chaque candidats de l'ensemble K0, nous commencerons par appliquer un message spécifique lors du premier tour, puis nous récupérons le résultat. Ensuite, en utilisant son chiffrer,  ont prends le résultat de l'inverse de la boîte S et puis on effectue une opération XOR entre les deux résultats.
+
+Exercice 5.3:
+
+Mon attaque fonctionne bien car j'ai pu retrouver la clé de chiffrement
+
+Exercice 6.1:
+
+Le nombre d'étapes est équivalent au nombre de clés potentielles, multiplié par le nombre d'étapes de l'algorithme de chiffrement, qui dans ce cas est de 2.
+
+Exercice 6.2:
+
+En utilisant une attaque par brute force, on devrait expérimenter l'ensemble des clés potentielles plutôt que seulement la dernière. Cela signifierait ainsi la nécessité de tester 256 fois les 2 tours dans cette situation, totalisant ainsi 512 étapes, ce qui engendrerait des couts considérablement plus élevés.
+
+Exercice 6.3:
+
+Les calculs nécessaires pour l'approximation linéaire de la boîte S doivent être pris en compte dans la complexité de l'attaque car ils ont un impact sur le temps, les ressources, la faisabilité et la probabilité de succès de l'attaque. Plus ces calculs sont complexes, plus l'attaque est difficile à réaliser.
+
+Exercice 6.4:
+
+En expérimentant une boîte S différente, le résultat présente une sécurité beaucoup plus élevée par rapport à celui obtenu avec la boîte d'origine.
